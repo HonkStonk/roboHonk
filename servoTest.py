@@ -29,9 +29,9 @@ print("pack voltage: ", getPackVoltage())
 kit = ServoKit(channels=16)
 kit.servo[hwDef.camServo].set_pulse_width_range(hwDef.camServoMin, hwDef.camServoMax)
 
-kit.servo[hwDef.camServo].fraction = 0.90
+kit.servo[hwDef.camServo].fraction = 0.0
 for i in range(8):
-    val = 0.90 + (0.01 * i)
+    val = 0.0 + (0.04 * i)
     print("to servo: ", val)
     kit.servo[hwDef.camServo].fraction = val
     time.sleep(2)
