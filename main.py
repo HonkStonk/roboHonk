@@ -1,4 +1,5 @@
 import time
+import hwDef
 from packSensor import packSensor
 from LEDController import LEDController
 from servoController import ServoController
@@ -14,8 +15,8 @@ leds.blue_led.on()
 print("bat volt: ", bat.getPackVoltage())
 print("bat %: ", bat.getPackSOC())
 
-servos.camServo(0.15)
-servos.leftMotor(0.50)
-servos.rightMotor(0.50)
+servos.camServo(0.45)
+servos.leftMotor(hwDef.motorStop)
+servos.rightMotor(hwDef.motorStop)
 time.sleep(5)
 servos.off()

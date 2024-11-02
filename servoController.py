@@ -9,10 +9,10 @@ class ServoController:
             hwDef.camServoMin, hwDef.camServoMax
         )
         self.kit.servo[hwDef.leftMotor].set_pulse_width_range(
-            hwDef.motorMin, hwDef.motorMax
+            hwDef.motorMinPWM, hwDef.motorMaxPWM
         )
         self.kit.servo[hwDef.rightMotor].set_pulse_width_range(
-            hwDef.motorMin, hwDef.motorMax
+            hwDef.motorMinPWM, hwDef.motorMaxPWM
         )
 
         self.off()
