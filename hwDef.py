@@ -11,8 +11,8 @@ rightMotor = 6
 motorMinPWM = 1000
 motorMaxPWM = 2000
 motorStop = 0.5
-motorMinFwd = 0.65
-motorMinBack = 0.37
+motorMinFwd = 0.68
+motorMinBack = 0.33
 
 # LED's
 ledPinRed = 5
