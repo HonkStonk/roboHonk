@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.6">
+    <title>Robot Control</title>
+    <style>
+        #controls {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Robot Control</h1>
+
+    <!-- Video Stream -->
+    <img src="{{ url_for('video_feed') }}" width="640" height="360" alt="Video Feed">
+
+    <!-- Battery Percentage -->
+    <div id="battery">
+        Battery: <span id="battery_percentage">Loading...</span>%
+    </div>
+
+    <!-- Servo Controls -->
+    <div id="controls">
+        <button onclick="moveServo('up')">▲ Up</button>
+        <button onclick="moveServo('down')">▼ Down</button>
+    </div>
+
+    <!-- Motor Controls -->
+    <div id="motor-controls">
+        <button onclick="controlMotors('forward')">▲ Forward</button><br>
+        <button onclick="controlMotors('left')">◀ Left</button>
+        <button onclick="controlMotors('stop')">■ Stop</button>
+        <button onclick="controlMotors('right')">▶ Right</button><br>
+        <button onclick="controlMotors('backward')">▼ Backward</button>
+    </div>
+
+    <script>
+        // Fetch battery status every 5 seconds
+        function fetchBatteryStatus() {
+            fetch('/battery')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('battery_percentage').innerText = data.battery_percentage;
+                });
+        }
+        setInterval(fetchBatteryStatus, 5000);
+        fetchBatteryStatus();
+
+        // Move the servo up or down
+        function moveServo(direction) {
+            fetch('/move_servo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ direction: direction })
+            });
+        }
+
+        // Control the motors
+        function controlMotors(action) {
+            fetch('/control_motors', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: action })
+            });
+        }
+    </script>
+</body>
+</html>

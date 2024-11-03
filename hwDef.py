@@ -10,9 +10,9 @@ leftMotor = 5
 rightMotor = 6
 motorMinPWM = 1000
 motorMaxPWM = 2000
-motorStop = 0.627
-motorMinFwd = 0.795
-motorMinBack = 0.459
+motorStop = 0.5
+motorMinFwd = 0.65
+motorMinBack = 0.37
 
 # LED's
 ledPinRed = 5
