@@ -71,5 +71,26 @@
             });
         }
     </script>
+    <script>
+    document.addEventListener('keydown', function(event) {
+        switch (event.key) {
+            case "ArrowUp":
+                controlMotors("forward");
+                break;
+            case "ArrowDown":
+                controlMotors("backward");
+                break;
+            case "ArrowLeft":
+                controlMotors("left");
+                break;
+            case "ArrowRight":
+                controlMotors("right");
+                break;
+            case " ":
+                controlMotors("stop");
+                break;
+        }
+    });
+    </script>
 </body>
 </html>
