@@ -28,11 +28,12 @@ servos.rightMotor(right_motor_speed)
 
 # Camera position state
 camera_position = 0.5  # Start in middle position (0.0 = down, 1.0 = up)
+servos.camServo(camera_position)
+
 
 motor_base_speed = hwDef.motorMinFwd
 steering_offset = 0.0
 movement_state = "stop"
-STEERING_STEP = 0.01
 MAX_MOTOR_SPEED = 1.0
 
 
@@ -71,9 +72,9 @@ def move_servo():
     global camera_position
     direction = request.json.get("direction")
     if direction == "up":
-        camera_position = min(camera_position + 0.1, 1.0)
+        camera_position = min(camera_position + 0.05, 1.0)
     elif direction == "down":
-        camera_position = max(camera_position - 0.1, 0.0)
+        camera_position = max(camera_position - 0.05, 0.0)
     servos.camServo(camera_position)
     return jsonify({"camera_position": camera_position})
 
@@ -84,12 +85,12 @@ def control_motors():
     global movement_state, steering_offset, motor_base_speed
 
     action = request.json.get("action")
-    STEERING_STEP = 0.03
-    STEERING_LIMIT = 1.0 - hwDef.motorMinFwd  # Ensure motors stay <= 1.0
+    STEERING_STEP = 0.02
+    STEERING_LIMIT = MAX_MOTOR_SPEED - hwDef.motorMinFwd  # Ensure motors stay <= 1.0
 
     if action == "forward":
         movement_state = "forward"
-        steering_offset = -0.05
+        steering_offset = 0.0  # negative = left, positive = right
         motor_base_speed = hwDef.motorMinFwd
 
     elif action == "backward":
@@ -114,8 +115,12 @@ def control_motors():
 
     # Apply differential drive when moving forward
     if movement_state == "forward":
-        left_motor_speed = motor_base_speed + max(0.0, steering_offset)
-        right_motor_speed = motor_base_speed + max(0.0, -steering_offset)
+        left_motor_speed = max(
+            hwDef.motorMinFwd, min(1.0, motor_base_speed + steering_offset)
+        )
+        right_motor_speed = max(
+            hwDef.motorMinFwd, min(1.0, motor_base_speed - steering_offset)
+        )
 
     # In-place turning when stopped
     elif movement_state == "stop":

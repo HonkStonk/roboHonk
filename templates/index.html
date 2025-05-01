@@ -72,7 +72,12 @@
         }
     </script>
     <script>
+    let keysPressed = {};
+
     document.addEventListener('keydown', function(event) {
+        if (keysPressed[event.key]) return; // Ignore if already held
+        keysPressed[event.key] = true;
+
         switch (event.key) {
             case "ArrowUp":
                 controlMotors("forward");
@@ -89,6 +94,25 @@
             case " ":
                 controlMotors("stop");
                 break;
+            case "w":
+            case "W":
+                moveServo("up");
+                break;
+            case "s":
+            case "S":
+                moveServo("down");
+                break;
+        }
+    });
+
+    document.addEventListener('keyup', function(event) {
+        delete keysPressed[event.key];
+
+        if (["ArrowLeft", "ArrowRight"].includes(event.key)) {
+            // Only stop if we are not already moving forward/backward
+            if (!keysPressed["ArrowUp"] && !keysPressed["ArrowDown"]) {
+                controlMotors("stop");
+            }
         }
     });
     </script>

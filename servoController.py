@@ -31,3 +31,4 @@ class ServoController:
 
     def rightMotor(self, val):
         self.kit.servo[hwDef.rightMotor].fraction = val
+        print("right got: ", val)
